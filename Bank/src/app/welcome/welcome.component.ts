@@ -7,6 +7,8 @@ import {ItemModel} from './item.model';
 import {ItemModel1} from './item1.model';
 import {CdModel} from './cd.model';
 import {StringObj} from './stringObj.model';
+import {WasteObserver} from './WasteObserver';
+import {ConcreteSubject} from './ConcreteSubject';
 
 @Component({
   selector: 'app-welcome',
@@ -19,14 +21,13 @@ export class WelcomeComponent implements OnInit {
   userModel: UserModel = new UserModel();
   admin = false;
   item;
-  waste;
   stringObj: StringObj = new StringObj();
   itemModel: ItemModel = new ItemModel();
   itemsModel: ItemModel1[];
   cdModel: CdModel = new CdModel();
   goal: number;
-  s = 0;
-  calWasted = 0;
+  wasteO = new WasteObserver();
+  subject = new ConcreteSubject();
 
   constructor(private http: HttpClient, private router: Router) {
   }
@@ -67,7 +68,7 @@ export class WelcomeComponent implements OnInit {
       error => console.log(error)
     );
     setTimeout(() => {
-      this.getWaste();
+      this.subject.getWaste(this.itemsModel, this.userModel.goal);
     }, 1500);
   }
 
@@ -85,7 +86,7 @@ export class WelcomeComponent implements OnInit {
       },
       error => console.log(error));
     setTimeout(() => {
-      this.getWaste();
+      this.subject.getWaste(this.itemsModel, this.userModel.goal);
     }, 1500);
   }
 
@@ -101,6 +102,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.subject.attach(this.wasteO);
     this.actualToken = window.localStorage.getItem('token');
     const httpOptions = {
       headers: new HttpHeaders({
@@ -163,19 +165,10 @@ export class WelcomeComponent implements OnInit {
       this.viewProfile();
     }, 1500);
     setTimeout(() => {
-      this.getWaste();
+      this.subject.getWaste(this.itemsModel, this.userModel.goal);
     }, 1500);
   }
 
-  getWaste() {
-    this.s = 0;
-    for (const i of this.itemsModel) {
-      if (i.consumptionDate === 'N/As') {
-        this.s += i.perDay;
-      }
-    }
-    this.calWasted = this.s - this.userModel.goal;
-  }
 
   getWReport() {
     const httpOptions = {

@@ -3,15 +3,15 @@
 <div class="box" style="width: 95%">
   <button class="btn3" mat-raised-button color="primary" style="float: right;" (click)="logout()">Logout</button>
   <h1>Welcome {{userModel.name}} Email: {{userModel.email}}</h1>
-  <h1 *ngIf="userModel.goal!==0">Goal= {{userModel.goal}} Ideal Burndown Rate={{s}}</h1>
-  <h1 *ngIf="userModel.goal===0">Goal= not set yet Ideal Burndown Rate={{s}}</h1>
+  <h1 *ngIf="userModel.goal!==0">Goal= {{userModel.goal}} Ideal Burndown Rate={{subject.s}}</h1>
+  <h1 *ngIf="userModel.goal===0">Goal= not set yet Ideal Burndown Rate={{subject.s}}</h1>
   <input [(ngModel)]="goal" type="number" name="goal" placeholder="goal" class="text-input" />
   <button class="btn3" mat-raised-button color="primary" (click)="setGoal()">Set Goal</button>
   <button class="btn3" mat-raised-button color="primary" (click)="getWReport()">Weekly Report</button>
   <button class="btn3" mat-raised-button color="primary" (click)="getMReport()">Monthly Report</button>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h1 *ngIf="calWasted>0 && userModel.goal!==0">YOU WASTE {{calWasted}} calories per day!!!</h1>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h1 *ngIf="wasteO.waste && userModel.goal!==0">YOU WASTE {{subject.calWasted}} calories per day!!!</h1>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <a *ngIf="calWasted>0" style="font-size:1.5em;color:#525252;"href="https://www.trusselltrust.org/get-involved/ways-to-give/donate-food/">Donate here</a>
+  <a *ngIf="wasteO.waste && userModel.goal!==0" style="font-size:1.5em;color:#525252;"href="https://www.trusselltrust.org/get-involved/ways-to-give/donate-food/">Donate here</a>
 </div>
 
 
